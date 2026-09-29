@@ -4,6 +4,10 @@
 
 A brutalist, privacy-first browser extension that tracks visits to user-added subscription services and highlights subscriptions that haven't been used recently, with direct cancellation links.
 
+- **GitHub Repository**: [https://github.com/DagmTesfu/UnSub](https://github.com/DagmTesfu/UnSub)
+- **Privacy Policy**: [PRIVACY.md](PRIVACY.md)
+- **Microsoft Edge Add-ons**: `[EDGE ADD-ONS LINK — TO BE ADDED AFTER APPROVAL]`
+
 ---
 
 ## Features
@@ -32,7 +36,7 @@ For full details, please review our [PRIVACY.md](PRIVACY.md).
 
 ## Installation for Chrome
 
-1. Download the latest release `.zip` from GitHub Releases (or clone this repository).
+1. Download the latest release `unsub-v1.0.0.zip` from [GitHub Releases](https://github.com/DagmTesfu/UnSub/releases) (or clone this repository).
 2. Extract the archive on your local computer.
 3. If building from source, run:
    ```bash
@@ -42,7 +46,7 @@ For full details, please review our [PRIVACY.md](PRIVACY.md).
 4. Open Google Chrome and navigate to `chrome://extensions`.
 5. Toggle **Developer mode** on (top-right corner).
 6. Click **Load unpacked** (top-left corner).
-7. Select the **`dist/`** directory within the project folder.
+7. Select the **`dist/`** directory within the project folder (or the extracted ZIP folder).
 
 > **Note**: Do **not** load the root project directory. The root contains uncompiled React JSX source code; Chrome requires the bundled files produced in `dist/`.
 
@@ -53,7 +57,7 @@ For full details, please review our [PRIVACY.md](PRIVACY.md).
 1. Open Microsoft Edge and navigate to `edge://extensions`.
 2. Turn on the **Developer mode** toggle in the left sidebar.
 3. Click **Load unpacked**.
-4. Select the built **`dist/`** directory.
+4. Select the built **`dist/`** directory (or the extracted release folder).
 
 > **Official Store Listing**:  
 > `[EDGE ADD-ONS LINK — TO BE ADDED AFTER APPROVAL]`

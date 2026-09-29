@@ -102,6 +102,6 @@ If this Privacy Policy is updated, the revised version will be posted in this re
 
 ## Contact
 
-If you have any questions or feedback regarding this Privacy Policy, please open an issue in the official GitHub repository or reach out via email:
+If you have any questions or feedback regarding this Privacy Policy, please open an issue in the official GitHub repository (https://github.com/DagmTesfu/UnSub) or reach out via email:
 
-`[YOUR CONTACT EMAIL]`
+lenovotablety847@gmail.com
