@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getSubscriptions, saveSubscriptions } from './storageApi';
+import { getSubscriptions, saveSubscriptions, getDaysUntilBilling } from './storageApi';
 import { CANCEL_URLS } from './cancelLinks';
 import './App.css';
 
@@ -8,6 +8,7 @@ export default function App() {
   const [name, setName] = useState('');
   const [domain, setDomain] = useState('');
   const [monthlyCost, setMonthlyCost] = useState('');
+  const [billingDay, setBillingDay] = useState('');
 
   useEffect(() => {
     loadSubscriptions();
@@ -27,6 +28,7 @@ export default function App() {
       name: name.trim(),
       domain: domain.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, ''),
       monthlyCost: parseFloat(monthlyCost) || 0,
+      billingDay: parseInt(billingDay, 10) || null,
       lastVisitedTimestamp: Date.now(),
     };
 
@@ -36,6 +38,7 @@ export default function App() {
     setName('');
     setDomain('');
     setMonthlyCost('');
+    setBillingDay('');
   }
 
   async function handleDelete(id) {
@@ -51,9 +54,9 @@ export default function App() {
       <header className="header">
         <div className="header-top">
           <h1>UNSUB</h1>
-          <span className="badge">v1.0</span>
+          <span className="badge">EARLY WARNING</span>
         </div>
-        <p className="subtitle">AUDIT SUBSCRIPTIONS // ELIMINATE WASTE</p>
+        <p className="subtitle">AUDIT SUBSCRIPTIONS // PREVENT AUTO-RENEWALS</p>
         <div className="total-badge">
           <span>MONTHLY BLEED:</span>
           <strong>${totalMonthly.toFixed(2)}</strong>
@@ -85,6 +88,14 @@ export default function App() {
             value={monthlyCost}
             onChange={(e) => setMonthlyCost(e.target.value)}
             required
+          />
+          <input
+            type="number"
+            min="1"
+            max="31"
+            placeholder="Billing Day (e.g. 15)"
+            value={billingDay}
+            onChange={(e) => setBillingDay(e.target.value)}
           />
           <button type="submit" className="btn-add">+ TRACK</button>
         </div>
@@ -120,7 +131,11 @@ export default function App() {
                 ? Math.floor((Date.now() - sub.lastVisitedTimestamp) / (1000 * 60 * 60 * 24))
                 : 0;
 
+              const daysUntilBilling = sub.billingDay ? getDaysUntilBilling(sub.billingDay) : null;
+
+              // Alert states
               const isDanger = daysSinceVisit > 30;
+              const isWarning = !isDanger && daysSinceVisit > 14 && daysUntilBilling !== null && daysUntilBilling <= 5;
 
               const cleanDomain = sub.domain.toLowerCase().replace(/^www\./, '');
               const cancelUrl =
@@ -131,7 +146,7 @@ export default function App() {
               return (
                 <li
                   key={sub.id}
-                  className={`sub-item ${isDanger ? 'danger' : ''}`}
+                  className={`sub-item ${isDanger ? 'danger' : ''} ${isWarning ? 'warning' : ''}`}
                 >
                   <div className="sub-main-row">
                     <div className="sub-info">
@@ -142,10 +157,14 @@ export default function App() {
                           ? 'VISITED TODAY'
                           : `${daysSinceVisit} DAYS SINCE VISIT`}
                         {isDanger && ' [WASTING MONEY]'}
+                        {isWarning && ` [RENEWS IN ${daysUntilBilling}D - UNUSED]`}
                       </span>
                     </div>
                     <div className="sub-meta">
                       <span className="sub-cost">${sub.monthlyCost.toFixed(2)}/mo</span>
+                      {sub.billingDay && (
+                        <span className="sub-renewal">Renews on the {sub.billingDay}th</span>
+                      )}
                       <button
                         className="btn-delete"
                         onClick={() => handleDelete(sub.id)}
@@ -156,7 +175,7 @@ export default function App() {
                     </div>
                   </div>
 
-                  {isDanger && (
+                  {(isDanger || isWarning) && (
                     <div className="cancel-row">
                       <a
                         href={cancelUrl}

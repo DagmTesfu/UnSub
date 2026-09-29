@@ -10,6 +10,7 @@
   --accent-cyan: #22d3ee;
   --accent-green: #4ade80;
   --danger-red: #ff3333;
+  --warning-orange: #ffaa00;
   --shadow-offset: 3px 3px 0px;
 }
 
@@ -64,9 +65,10 @@ body {
   background: var(--accent-yellow);
   color: #000000;
   font-weight: 900;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   padding: 2px 6px;
   border: 1px solid #000000;
+  letter-spacing: 0.04em;
 }
 
 .subtitle {
@@ -74,7 +76,7 @@ body {
   color: var(--text-muted);
   font-weight: 700;
   margin-top: 4px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
 }
 
 .total-badge {
@@ -114,15 +116,20 @@ body {
 
 .form-row {
   display: flex;
-  gap: 8px;
+  gap: 6px;
+}
+
+.form-row input {
+  flex: 1;
+  min-width: 0;
 }
 
 input {
   background-color: #000000;
   color: var(--text-main);
   border: 2px solid #555555;
-  padding: 8px 10px;
-  font-size: 0.75rem;
+  padding: 8px 8px;
+  font-size: 0.72rem;
   font-family: inherit;
   font-weight: 600;
   outline: none;
@@ -140,13 +147,14 @@ input:focus {
   color: #000000;
   border: 2px solid var(--border-color);
   font-weight: 900;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-family: inherit;
   cursor: pointer;
-  padding: 8px 16px;
+  padding: 8px 12px;
   white-space: nowrap;
   box-shadow: 2px 2px 0px var(--border-color);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
+  flex-shrink: 0;
 }
 
 .btn-add:hover {
@@ -308,14 +316,22 @@ input:focus {
 
 .sub-meta {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
 }
 
 .sub-cost {
   font-size: 0.85rem;
   font-weight: 800;
   color: var(--text-main);
+}
+
+.sub-renewal {
+  font-size: 0.65rem;
+  color: var(--accent-cyan);
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .btn-delete {
@@ -325,14 +341,57 @@ input:focus {
   font-family: inherit;
   font-size: 0.65rem;
   font-weight: 900;
-  padding: 4px 6px;
+  padding: 2px 6px;
   cursor: pointer;
+  margin-top: 2px;
 }
 
 .btn-delete:hover {
   background-color: var(--danger-red);
   color: #ffffff;
   border-color: var(--danger-red);
+}
+
+/* ============================================================
+   Early Warning Highlight: .warning
+   Applied when daysSinceVisit > 14 AND daysUntilBilling <= 5
+   Striking yellow/orange high-contrast brutalist style (#ffaa00)
+   ============================================================ */
+.warning {
+  border: 2px solid var(--warning-orange) !important;
+  box-shadow: var(--shadow-offset) var(--warning-orange) !important;
+  font-weight: 800 !important;
+  background-color: #241900 !important;
+}
+
+.warning .sub-name {
+  color: var(--warning-orange) !important;
+  font-weight: 900 !important;
+}
+
+.warning .sub-status {
+  color: var(--warning-orange) !important;
+  font-weight: 900 !important;
+}
+
+.warning .sub-cost {
+  color: var(--warning-orange) !important;
+  font-weight: 900 !important;
+}
+
+.warning .sub-renewal {
+  color: #ffe066 !important;
+  font-weight: 800 !important;
+}
+
+.warning .btn-cancel {
+  background-color: var(--warning-orange) !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+}
+
+.warning .btn-cancel:hover {
+  background-color: #ffbb22 !important;
 }
 
 /* ============================================================

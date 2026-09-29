@@ -1,8 +1,6 @@
-import { getSubscriptions, saveSubscriptions } from './src/storageApi.js';
+import { getSubscriptions, saveSubscriptions, getDaysUntilBilling } from './src/storageApi.js';
 
 console.log('UnSub service worker active.');
-
-const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
 // 1. Setup audit alarm on installation
 chrome.runtime.onInstalled.addListener(() => {
@@ -19,17 +17,33 @@ chrome.runtime.onInstalled.addListener(() => {
   console.log('UnSub: dailyAudit alarm created.');
 });
 
-// 2. Alarm listener to audit subscriptions
+// 2. Alarm listener to audit subscriptions (Early Warning Engine)
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === 'dailyAudit') {
     try {
       const subscriptions = await getSubscriptions();
 
       for (const sub of subscriptions) {
-        if (sub.lastVisitedTimestamp && Date.now() - sub.lastVisitedTimestamp > THIRTY_DAYS_MS) {
+        const daysSinceVisit = sub.lastVisitedTimestamp
+          ? Math.floor((Date.now() - sub.lastVisitedTimestamp) / (1000 * 60 * 60 * 24))
+          : 0;
+
+        const daysUntilBilling = sub.billingDay ? getDaysUntilBilling(sub.billingDay) : null;
+
+        // Proactive Early Warning: Unused in > 14 days and renews within 5 days
+        if (daysUntilBilling !== null && daysSinceVisit > 14 && daysUntilBilling <= 5) {
           chrome.notifications.create({
             type: 'basic',
-            iconUrl: 'icon.png',
+            iconUrl: chrome.runtime.getURL('icon-48.png'),
+            title: 'UnSub Early Renewal Warning',
+            message: `Warning: You haven't used ${sub.name} in ${daysSinceVisit} days. It renews in ${daysUntilBilling} days! You will be charged $${sub.monthlyCost}.`,
+            priority: 2,
+          });
+        } else if (daysSinceVisit > 30) {
+          // Standard Dormancy Alert: Unused for over 30 days
+          chrome.notifications.create({
+            type: 'basic',
+            iconUrl: chrome.runtime.getURL('icon-48.png'),
             title: 'UnSub Subscription Alert',
             message: `You haven't used ${sub.name} in 30 days. You are losing $${sub.monthlyCost}/month!`,
             priority: 2,
