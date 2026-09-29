@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getSubscriptions, saveSubscriptions } from './storageApi';
+import { CANCEL_URLS } from './cancelLinks';
 import './App.css';
 
 export default function App() {
@@ -102,31 +103,52 @@ export default function App() {
 
               const isDanger = daysSinceVisit > 30;
 
+              const cleanDomain = sub.domain.toLowerCase().replace(/^www\./, '');
+              const cancelUrl =
+                CANCEL_URLS[cleanDomain] ||
+                CANCEL_URLS[sub.domain] ||
+                `https://www.google.com/search?q=${encodeURIComponent(`How to cancel ${sub.name}`)}`;
+
               return (
                 <li
                   key={sub.id}
                   className={`sub-item ${isDanger ? 'danger' : ''}`}
                 >
-                  <div className="sub-info">
-                    <span className="sub-name">{sub.name}</span>
-                    <span className="sub-domain">{sub.domain}</span>
-                    <span className="sub-status">
-                      {daysSinceVisit === 0
-                        ? 'VISITED TODAY'
-                        : `${daysSinceVisit} DAYS SINCE VISIT`}
-                      {isDanger && ' [WASTING MONEY]'}
-                    </span>
+                  <div className="sub-main-row">
+                    <div className="sub-info">
+                      <span className="sub-name">{sub.name}</span>
+                      <span className="sub-domain">{sub.domain}</span>
+                      <span className="sub-status">
+                        {daysSinceVisit === 0
+                          ? 'VISITED TODAY'
+                          : `${daysSinceVisit} DAYS SINCE VISIT`}
+                        {isDanger && ' [WASTING MONEY]'}
+                      </span>
+                    </div>
+                    <div className="sub-meta">
+                      <span className="sub-cost">${sub.monthlyCost.toFixed(2)}/mo</span>
+                      <button
+                        className="btn-delete"
+                        onClick={() => handleDelete(sub.id)}
+                        title="Remove"
+                      >
+                        DEL
+                      </button>
+                    </div>
                   </div>
-                  <div className="sub-meta">
-                    <span className="sub-cost">${sub.monthlyCost.toFixed(2)}/mo</span>
-                    <button
-                      className="btn-delete"
-                      onClick={() => handleDelete(sub.id)}
-                      title="Remove"
-                    >
-                      DEL
-                    </button>
-                  </div>
+
+                  {isDanger && (
+                    <div className="cancel-row">
+                      <a
+                        href={cancelUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-cancel"
+                      >
+                        CANCEL SUBSCRIPTION &rarr;
+                      </a>
+                    </div>
+                  )}
                 </li>
               );
             })}

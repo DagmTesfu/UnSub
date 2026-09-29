@@ -187,7 +187,7 @@ input:focus {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: 220px;
+  max-height: 230px;
   overflow-y: auto;
   padding-right: 2px;
 }
@@ -208,10 +208,17 @@ input:focus {
   border: 2px solid var(--border-color);
   padding: 10px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 8px;
   box-shadow: var(--shadow-offset) var(--border-color);
   transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.sub-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .sub-info {
@@ -292,4 +299,40 @@ input:focus {
 .danger .sub-cost {
   color: var(--danger-red) !important;
   font-weight: 900 !important;
+}
+
+/* ============================================================
+   One-Click Cancellation Button
+   ============================================================ */
+.cancel-row {
+  margin-top: 2px;
+  width: 100%;
+}
+
+.btn-cancel {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-color: var(--danger-red);
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  padding: 7px 10px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  box-shadow: 2px 2px 0px #ffffff;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background-color: #ff5555;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #ffffff;
+}
+
+.btn-cancel:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #ffffff;
 }
