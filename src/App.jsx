@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getSubscriptions, saveSubscriptions } from './storageApi';
+import './App.css';
 
 export default function App() {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -25,7 +26,7 @@ export default function App() {
       name: name.trim(),
       domain: domain.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, ''),
       monthlyCost: parseFloat(monthlyCost) || 0,
-      lastVisitedTimestamp: null,
+      lastVisitedTimestamp: Date.now(),
     };
 
     const updated = [...subscriptions, newSub];
@@ -47,61 +48,73 @@ export default function App() {
   return (
     <div className="popup-container">
       <header className="header">
-        <h1>UnSub</h1>
-        <p className="subtitle">Track subscription usage & stop wasting money</p>
+        <div className="header-top">
+          <h1>UNSUB</h1>
+          <span className="badge">v1.0</span>
+        </div>
+        <p className="subtitle">AUDIT SUBSCRIPTIONS // ELIMINATE WASTE</p>
         <div className="total-badge">
-          <span>Total Monthly:</span> <strong>${totalMonthly.toFixed(2)}</strong>
+          <span>MONTHLY BLEED:</span>
+          <strong>${totalMonthly.toFixed(2)}</strong>
         </div>
       </header>
 
       <form onSubmit={handleAddSubscription} className="form">
-        <input
-          type="text"
-          placeholder="Service name (e.g. Netflix)"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Domain (e.g. netflix.com)"
-          value={domain}
-          onChange={(e) => setDomain(e.target.value)}
-          required
-        />
-        <input
-          type="number"
-          step="0.01"
-          placeholder="Monthly Cost ($)"
-          value={monthlyCost}
-          onChange={(e) => setMonthlyCost(e.target.value)}
-          required
-        />
-        <button type="submit" className="btn-add">+ Add Subscription</button>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="SERVICE (e.g. Netflix)"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            placeholder="DOMAIN (e.g. netflix.com)"
+            value={domain}
+            onChange={(e) => setDomain(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-row">
+          <input
+            type="number"
+            step="0.01"
+            placeholder="COST / MO ($)"
+            value={monthlyCost}
+            onChange={(e) => setMonthlyCost(e.target.value)}
+            required
+          />
+          <button type="submit" className="btn-add">+ TRACK</button>
+        </div>
       </form>
 
       <section className="list-section">
-        <h2>Monitored Subscriptions</h2>
+        <h2>ACTIVE TRACKING ({subscriptions.length})</h2>
         {subscriptions.length === 0 ? (
-          <p className="empty">No subscriptions added yet.</p>
+          <div className="empty-box">NO SUBSCRIPTIONS RECORDED</div>
         ) : (
           <ul className="sub-list">
             {subscriptions.map((sub) => {
               const daysSinceVisit = sub.lastVisitedTimestamp
                 ? Math.floor((Date.now() - sub.lastVisitedTimestamp) / (1000 * 60 * 60 * 24))
-                : null;
+                : 0;
+
+              const isDanger = daysSinceVisit > 30;
 
               return (
-                <li key={sub.id} className="sub-item">
+                <li
+                  key={sub.id}
+                  className={`sub-item ${isDanger ? 'danger' : ''}`}
+                >
                   <div className="sub-info">
                     <span className="sub-name">{sub.name}</span>
                     <span className="sub-domain">{sub.domain}</span>
                     <span className="sub-status">
-                      {daysSinceVisit === null
-                        ? 'Never visited'
-                        : daysSinceVisit === 0
-                        ? 'Visited today'
-                        : `Last visited ${daysSinceVisit}d ago`}
+                      {daysSinceVisit === 0
+                        ? 'VISITED TODAY'
+                        : `${daysSinceVisit} DAYS SINCE VISIT`}
+                      {isDanger && ' [WASTING MONEY]'}
                     </span>
                   </div>
                   <div className="sub-meta">
@@ -111,7 +124,7 @@ export default function App() {
                       onClick={() => handleDelete(sub.id)}
                       title="Remove"
                     >
-                      &times;
+                      DEL
                     </button>
                   </div>
                 </li>

@@ -1,0 +1,295 @@
+/* Modern Brutalist Dark-Mode Theme for UnSub */
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-surface: #141414;
+  --bg-surface-elevated: #1f1f1f;
+  --text-main: #f5f5f5;
+  --text-muted: #8a8a8a;
+  --border-color: #ffffff;
+  --accent-yellow: #facc15;
+  --accent-cyan: #22d3ee;
+  --accent-green: #4ade80;
+  --danger-red: #ff3333;
+  --shadow-offset: 3px 3px 0px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 400px;
+  min-height: 500px;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: 'Courier New', Courier, monospace, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.popup-container {
+  width: 400px;
+  min-height: 500px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: var(--bg-primary);
+}
+
+/* Header */
+.header {
+  border: 2px solid var(--border-color);
+  background-color: var(--bg-surface);
+  padding: 14px;
+  box-shadow: var(--shadow-offset) var(--border-color);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+}
+
+.badge {
+  background: var(--accent-yellow);
+  color: #000000;
+  font-weight: 900;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border: 1px solid #000000;
+}
+
+.subtitle {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-top: 4px;
+  letter-spacing: 0.08em;
+}
+
+.total-badge {
+  margin-top: 12px;
+  background: #000000;
+  border: 2px solid var(--border-color);
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.total-badge strong {
+  color: var(--accent-green);
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 2px solid var(--border-color);
+  background-color: var(--bg-surface);
+  padding: 14px;
+  box-shadow: var(--shadow-offset) var(--border-color);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-row {
+  display: flex;
+  gap: 8px;
+}
+
+input {
+  background-color: #000000;
+  color: var(--text-main);
+  border: 2px solid #555555;
+  padding: 8px 10px;
+  font-size: 0.75rem;
+  font-family: inherit;
+  font-weight: 600;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.15s ease;
+}
+
+input:focus {
+  border-color: var(--border-color);
+  box-shadow: 2px 2px 0px var(--border-color);
+}
+
+.btn-add {
+  background-color: var(--accent-cyan);
+  color: #000000;
+  border: 2px solid var(--border-color);
+  font-weight: 900;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 8px 16px;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0px var(--border-color);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn-add:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--border-color);
+}
+
+.btn-add:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--border-color);
+}
+
+/* Subscriptions List */
+.list-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list-section h2 {
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.empty-box {
+  border: 2px dashed #444444;
+  padding: 24px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.sub-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+/* Custom scrollbar for brutalist look */
+.sub-list::-webkit-scrollbar {
+  width: 6px;
+}
+.sub-list::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+.sub-list::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+}
+
+.sub-item {
+  background-color: var(--bg-surface);
+  border: 2px solid var(--border-color);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-offset) var(--border-color);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.sub-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sub-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-main);
+  text-transform: uppercase;
+}
+
+.sub-domain {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.sub-status {
+  font-size: 0.65rem;
+  color: var(--accent-yellow);
+  font-weight: 700;
+}
+
+.sub-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sub-cost {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.btn-delete {
+  background-color: #000000;
+  border: 1px solid var(--border-color);
+  color: var(--border-color);
+  font-family: inherit;
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 4px 6px;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  background-color: var(--danger-red);
+  color: #ffffff;
+  border-color: var(--danger-red);
+}
+
+/* ============================================================
+   Wasted Money Highlight: .danger
+   Applied when daysSinceVisit > 30
+   ============================================================ */
+.danger {
+  border: 2px solid var(--danger-red) !important;
+  box-shadow: var(--shadow-offset) var(--danger-red) !important;
+  font-weight: 800 !important;
+  background-color: #240a0a !important;
+}
+
+.danger .sub-name {
+  color: var(--danger-red) !important;
+  font-weight: 900 !important;
+}
+
+.danger .sub-status {
+  color: var(--danger-red) !important;
+  font-weight: 900 !important;
+}
+
+.danger .sub-cost {
+  color: var(--danger-red) !important;
+  font-weight: 900 !important;
+}
