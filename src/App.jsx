@@ -93,7 +93,26 @@ export default function App() {
       <section className="list-section">
         <h2>ACTIVE TRACKING ({subscriptions.length})</h2>
         {subscriptions.length === 0 ? (
-          <div className="empty-box">NO SUBSCRIPTIONS RECORDED</div>
+          <div className="onboarding-card">
+            <h3 className="onboarding-header">NO ACTIVE TRACKERS</h3>
+            <p className="onboarding-desc">
+              Add the services you pay for below. We will silently monitor your visits locally in your browser. If you pay for something but don't visit it for 30 days, we will alert you and help you cancel it.
+            </p>
+            <ol className="onboarding-steps">
+              <li className="step-item">
+                <span className="step-badge">1</span>
+                <span className="step-text">Add a subscription</span>
+              </li>
+              <li className="step-item">
+                <span className="step-badge">2</span>
+                <span className="step-text">Browse normally</span>
+              </li>
+              <li className="step-item">
+                <span className="step-badge">3</span>
+                <span className="step-text">Stop wasting money</span>
+              </li>
+            </ol>
+          </div>
         ) : (
           <ul className="sub-list">
             {subscriptions.map((sub) => {

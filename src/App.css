@@ -159,7 +159,7 @@ input:focus {
   box-shadow: 1px 1px 0px var(--border-color);
 }
 
-/* Subscriptions List */
+/* Subscriptions List Section */
 .list-section {
   display: flex;
   flex-direction: column;
@@ -173,15 +173,75 @@ input:focus {
   color: var(--text-muted);
 }
 
-.empty-box {
-  border: 2px dashed #444444;
-  padding: 24px;
-  text-align: center;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  font-weight: 700;
+/* ============================================================
+   Onboarding Empty State Card (Brutalist Manual Page Style)
+   ============================================================ */
+.onboarding-card {
+  border: 2px dashed #555555;
+  background-color: var(--bg-surface);
+  padding: 16px;
+  box-shadow: 3px 3px 0px #1f1f1f;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
+.onboarding-header {
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: var(--accent-yellow);
+  text-transform: uppercase;
+}
+
+.onboarding-desc {
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.onboarding-steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #000000;
+  border: 1px solid #333333;
+  padding: 6px 10px;
+  box-shadow: 2px 2px 0px #1f1f1f;
+}
+
+.step-badge {
+  background-color: var(--accent-cyan);
+  color: #000000;
+  font-weight: 900;
+  font-size: 0.7rem;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000000;
+  flex-shrink: 0;
+}
+
+.step-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Subscriptions List */
 .sub-list {
   list-style: none;
   display: flex;
