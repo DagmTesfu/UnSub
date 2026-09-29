@@ -83,7 +83,7 @@ Both the Chrome Web Store and Microsoft Edge Partner Center require explicit jus
 
 ## 5. Store URLs & Contact Info
 
-- **Privacy Policy URL**: `Privacy Policy URL: [TO BE HOSTED]` *(e.g., link to hosted PRIVACY.md on GitHub Pages or personal portfolio)*
+- **Privacy Policy URL**: https://dagmtesfu.github.io/UnSub/PRIVACY
 - **Support URL**: `Support URL: https://github.com/DagmTesfu/UnSub/issues`
 - **Developer Contact Email**: `lenovotablety847@gmail.com`
 
