@@ -3,6 +3,33 @@ import { getSubscriptions, saveSubscriptions, getDaysUntilBilling } from './stor
 import { CANCEL_URLS } from './cancelLinks';
 import './App.css';
 
+/**
+ * Normalizes user-entered domains and URLs into a clean hostname without www.
+ * Uses the native URL API and handles malformed input gracefully.
+ * Examples:
+ *   netflix.com -> netflix.com
+ *   www.netflix.com -> netflix.com
+ *   https://netflix.com -> netflix.com
+ *   https://www.netflix.com/browse?something=test -> netflix.com
+ * @param {string} input
+ * @returns {string}
+ */
+export function normalizeDomain(input) {
+  if (!input || typeof input !== 'string') return '';
+  const trimmed = input.trim().toLowerCase();
+  try {
+    const url = new URL(trimmed.includes('://') ? trimmed : `https://${trimmed}`);
+    return url.hostname.replace(/^www\./, '');
+  } catch {
+    return trimmed
+      .replace(/^https?:\/\//, '')
+      .replace(/^www\./, '')
+      .split('/')[0]
+      .split('?')[0]
+      .split('#')[0];
+  }
+}
+
 export default function App() {
   const [subscriptions, setSubscriptions] = useState([]);
   const [name, setName] = useState('');
@@ -21,12 +48,13 @@ export default function App() {
 
   async function handleAddSubscription(e) {
     e.preventDefault();
-    if (!name.trim() || !domain.trim() || !monthlyCost) return;
+    const cleanDomain = normalizeDomain(domain);
+    if (!name.trim() || !cleanDomain || !monthlyCost) return;
 
     const newSub = {
       id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
       name: name.trim(),
-      domain: domain.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, ''),
+      domain: cleanDomain,
       monthlyCost: parseFloat(monthlyCost) || 0,
       billingDay: parseInt(billingDay, 10) || null,
       lastVisitedTimestamp: Date.now(),
@@ -146,11 +174,7 @@ export default function App() {
               const isDanger = daysSinceVisit > 30;
               const isWarning = !isDanger && daysSinceVisit > 14 && daysUntilBilling !== null && daysUntilBilling <= 5;
 
-              const cleanDomain = sub.domain
-                .toLowerCase()
-                .replace(/^https?:\/\//, '')
-                .replace(/^www\./, '')
-                .replace(/\/.*$/, '');
+              const cleanDomain = normalizeDomain(sub.domain);
 
               const cancelUrl =
                 CANCEL_URLS[cleanDomain] ||
