@@ -47,6 +47,15 @@ export default function App() {
     setSubscriptions(updated);
   }
 
+  function handleOpenCancelUrl(e, url) {
+    e.preventDefault();
+    if (typeof chrome !== 'undefined' && chrome.tabs?.create) {
+      chrome.tabs.create({ url });
+    } else {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  }
+
   const totalMonthly = subscriptions.reduce((sum, s) => sum + (s.monthlyCost || 0), 0);
 
   return (
@@ -137,7 +146,12 @@ export default function App() {
               const isDanger = daysSinceVisit > 30;
               const isWarning = !isDanger && daysSinceVisit > 14 && daysUntilBilling !== null && daysUntilBilling <= 5;
 
-              const cleanDomain = sub.domain.toLowerCase().replace(/^www\./, '');
+              const cleanDomain = sub.domain
+                .toLowerCase()
+                .replace(/^https?:\/\//, '')
+                .replace(/^www\./, '')
+                .replace(/\/.*$/, '');
+
               const cancelUrl =
                 CANCEL_URLS[cleanDomain] ||
                 CANCEL_URLS[sub.domain] ||
@@ -182,6 +196,7 @@ export default function App() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-cancel"
+                        onClick={(e) => handleOpenCancelUrl(e, cancelUrl)}
                       >
                         CANCEL SUBSCRIPTION &rarr;
                       </a>
